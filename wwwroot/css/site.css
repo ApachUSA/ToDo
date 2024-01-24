@@ -19,4 +19,160 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #292929;
 }
+
+div, p {
+    color: white;
+}
+
+p {
+    font-size: 18px;
+}
+
+a{
+   text-decoration: none;
+}
+
+.roundedBox {
+    border-radius: 10px;
+    background-color: #393939;
+    padding: 15px;
+    width: 100%;
+    height: auto;
+}
+
+    .finished {
+        opacity: 0.5;
+    }
+
+.textAreaField {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+    .textAreaField:focus {
+        outline: none;
+        border-bottom: 1px solid #292929;
+    }
+
+.customBtn {
+    background-color: transparent;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color linear 0.2s;
+    transition: background-color linear 0.2s;
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+    .customBtn > span{
+        margin: 5px;
+    }
+
+    .customBtn:hover {
+        background-color: #292929;
+        cursor: pointer;
+    }
+
+    .addBtn:hover {
+        color: yellowgreen;
+    }
+
+        .addBtn:hover > span {
+            color: yellowgreen;
+        }
+
+
+.editBtn:hover {
+    color: blue;
+}
+
+.editBtn:hover > span{
+    color: blue;
+}
+
+.deleteBtn:hover {
+    color: red;
+}
+
+    .deleteBtn:hover > span {
+        color: red;
+    }
+
+
+
+.checkbox-container {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+    margin-bottom: 5px;
+}
+
+.custom-checkbox {
+    position: relative;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: #292929;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 11px;
+        top: 8px;
+        width: 8px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+.custom-checkbox:checked ~ .checkmark {
+    background-color: green;
+   /* box-shadow: 0 3px 5px green;*/
+}
+
+    .custom-checkbox:checked ~ .checkmark:after {
+        display: block;
+    }
+
+@keyframes checkAnim {
+    0% {
+        height: 0;
+    }
+
+    100% {
+        height: 10px;
+    }
+}
+
+.custom-checkbox:checked ~ .checkmark:after {
+    animation: checkAnim 0.2s forwards;
+}
+
