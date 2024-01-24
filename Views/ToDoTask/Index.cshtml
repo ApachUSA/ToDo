@@ -1,0 +1,198 @@
+﻿@model ToDoTask
+
+<div class="taskContainer">
+
+	<div class="createTask mb-3">
+
+		<form id="CreateForm">
+
+			<div class="d-flex justify-content-between align-items-center roundedBox">
+
+				<div class="form-group flex-fill  me-2">
+
+					<textarea asp-for="Task_Name" class="textAreaField w-100" rows="2" placeholder="Enter your task"></textarea>
+
+					<span asp-validation-for="Task_Name" class="text-danger"></span>
+
+				</div>
+
+				<a class="customBtn addBtn" onclick="CreateTask()"><i class="bi bi-plus-lg"></i></a>
+
+			</div>
+
+		</form>
+
+	</div>
+
+	<div class="d-flex  justify-content-end">
+
+		<div class="d-flex align-items-center">
+
+			<label class="me-2">Sort: </label>
+
+			<select class="form-select text-light border-0" style="background-color: #393939" onchange="GetTaskList()">
+
+				<option value="A-Z">A-Z</option>
+
+				<option value="Z-A">Z-A</option>
+
+				<option value="By date">By date</option>
+
+				<option selected value="By date in reverse">By date in reverse</option>
+
+			</select>
+
+		</div>
+
+	</div>
+
+	<div class="taskList">
+	</div>
+
+</div>
+
+<div class="modal_page">
+</div>
+
+
+<script>
+	window.addEventListener('load', function () {
+		GetTaskList();
+	});
+</script>
+
+@{
+	// Renders the partial view containing client-side validation scripts.
+	// This includes scripts for jQuery validation and unobtrusive validation.
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+
+	// Retrieves and updates the task list based on the selected sorting order.
+	function GetTaskList() {
+
+		var selectedValue = $(".form-select").val();
+
+		$.ajax({
+			url: "@Url.Action("TaskListPartial", "ToDoTask")" + "?sortOrder=" + selectedValue,
+			type: "GET",
+			success: function (data) {
+				$(".taskList").html(data);
+
+			}
+		});
+
+	}
+
+	// Creates a new task using the data from the form.
+	function CreateTask() {
+
+		var $form = $("#CreateForm");
+
+		if ($form.valid()) {
+
+			var formData = {
+				Task_Name: $("#Task_Name").val(),
+			}
+
+			$.ajax({
+				url: "@Url.Action("CreateTask", "ToDoTask")",
+				type: "POST",
+				data: {
+					toDoTask: formData,
+				},
+				success: function (data) {
+					GetTaskList();
+					$("#Task_Name").val('');
+					SuccesToastShow(data);
+				},
+				error: function (xhr) {
+					ErrorToastShow(xhr.responseText);
+				}
+			});
+		}
+
+	}
+
+	// Marks a task as finished using its ID.
+	// @@param {string} id - The ID of the task to be marked as finished.
+	function FinishTask(id) {
+
+		$.ajax({
+			url: "@Url.Action("Finish", "ToDoTask")",
+			type: "PUT",
+			data: {
+				id: id,
+			},
+			success: function (data) {
+				GetTaskList();
+				SuccesToastShow(data);
+			},
+			error: function (xhr) {
+				ErrorToastShow(xhr.responseText);
+			}
+		});
+
+	}
+
+	// Marks a finished task as unfinished using its ID.
+	// @@param{ string } id - The ID of the task to be marked as unfinished.
+	function UnFinishTask(id) {
+
+		$.ajax({
+			url: "@Url.Action("UnFinish", "ToDoTask")",
+			type: "PUT",
+			data: {
+				id: id,
+			},
+			success: function (data) {
+				GetTaskList();
+				SuccesToastShow(data);
+			},
+			error: function (xhr) {
+				ErrorToastShow(xhr.responseText);
+			}
+		});
+
+	}
+
+	// Shows the modal for editing a task.
+	function ShowModal() {
+		$('#editTaskModal').modal('show');
+	}
+
+	// Hides the modal for editing a task.
+	function HideModal() {
+		$('#editTaskModal').modal('hide');
+	}
+
+	// Retrieves the view for updating a task based on its ID.
+	// @@param {string} id - The ID of the task for which to get the update view.
+	function GetUpdateTaskView(id) {
+
+		$.ajax({
+			url: "@Url.Action("UpdateTaskPartial", "ToDoTask")" + "?id=" + id,
+			type: "GET",
+			success: function (data) {
+				$(".modal_page").html(data);
+				ShowModal();
+
+			},
+			error: function (xhr) {
+				ErrorToastShow(xhr.responseText);
+			}
+		});
+
+	}
+
+</script>
+
+<style>
+
+	.taskContainer {
+		min-height: 200px;
+		margin: 10px;
+	}
+
+</style>
