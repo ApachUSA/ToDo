@@ -24,6 +24,7 @@ A simple web application. Realization of technical assignment for Shop-Express c
 - Mark a task as completed.
 - Ability to edit the task name.
 - The ability to delete a task.
+- Implementation of the task sorting function.
 
 ## Screenshots
 
