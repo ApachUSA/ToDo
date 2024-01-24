@@ -1,0 +1,69 @@
+﻿@model List<ToDoTask>
+
+@foreach (var task in Model)
+{
+	if (!task.Finished)
+	{
+		<div class="roundedBox mt-4">
+
+			<div class="d-flex  flex-column justify-content-between">
+
+				<div class="d-flex justify-content-end">
+
+					<span style="font-size: 10px; color: gray">created at @task.Task_Date</span>
+
+				</div>
+
+				<div class="d-flex justify-content-between align-items-center " style="">
+
+					<label class="checkbox-container">
+
+						<input class="custom-checkbox" type="checkbox" checked="@task.Finished" onclick="FinishTask('@task.Task_ID')">
+
+						<span class="checkmark"></span>
+
+					</label>
+
+					<p class="flex-fill" style="text-align:justify;margin: 0px 10px 0px 10px ">@task.Task_Name </p>
+
+					<button class="customBtn editBtn" style="margin-top: 5px;" onclick="GetUpdateTaskView('@task.Task_ID')"><i class="bi bi-pencil"></i></button>
+
+				</div>
+
+			</div>
+
+		</div>
+	}
+	else
+	{
+		<div class="roundedBox finished mt-4">
+
+			<div class="d-flex  flex-column justify-content-between">
+
+				<div class="d-flex justify-content-end">
+
+					<span style="font-size: 10px; color: gray">finished at @task.Task_Date</span>
+
+				</div>
+
+				<div class="d-flex justify-content-between align-items-center " style="">
+
+					<label class="checkbox-container">
+
+						<input class="custom-checkbox" type="checkbox" checked="@task.Finished" onclick="UnFinishTask('@task.Task_ID')">
+
+						<span class="checkmark"></span>
+
+					</label>
+
+					<p class="flex-fill" style="text-align:justify;margin: 0px 10px 0px 10px ">@task.Task_Name </p>
+
+				</div>
+
+			</div>
+
+		</div>
+	}
+
+}
+
