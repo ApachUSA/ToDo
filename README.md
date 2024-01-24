@@ -26,6 +26,15 @@ A simple web application. Realization of technical assignment for Shop-Express c
 - The ability to delete a task.
 - Implementation of the task sorting function.
 
+## How to start
+
+In **appsettings.json**, paste the name of your server in the connection string
+```
+    "ConnectionStrings": {
+    "DefaultConnection": "Server=your_name;Database=ToDo;Trusted_Connection=True; trustServerCertificate=true;"
+  },
+```
+
 ## Screenshots
 
 <div align="center">
