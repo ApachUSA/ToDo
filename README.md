@@ -29,7 +29,7 @@ A simple web application. Realization of technical assignment for Shop-Express c
 ## Screenshots
 
 <div align="center">
-  <img src="/wwwroot/screenshots/ToDoExample.png"/>
+  <img src="/wwwroot/screenshots/ToDo.png"/>
   <p>ToDo</p>
   <br/>
 </div>
