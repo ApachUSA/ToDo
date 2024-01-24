@@ -1,0 +1,119 @@
+﻿@model ToDoTask
+
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+
+	<div class="modal-dialog modal-dialog-centered">
+
+		<div class="modal-content" style="    background-color: transparent">
+
+			<div>
+
+				<form id="EditTaskForm">
+
+					<input asp-for="Task_Date" hidden />
+
+					<div class="d-flex flex-column roundedBox">
+
+						<div class="d-flex justify-content-between mb-2">
+							
+							<span style="font-size: 10px"> Time: @Model.Task_Date</span>
+
+							<div class="d-flex align-items-center w-auto" style="font-size: 10px;">
+
+								<span>ID: </span>
+
+								<input readonly asp-for="Task_ID" style="background: none; border: none; color: white" />
+
+							</div>
+							
+						</div>
+						
+						<div class="form-group  mb-3">
+					
+						<textarea class="textAreaField w-100" style="background-color: #292929" asp-for="Task_Name" rows="5"></textarea>
+
+						<span asp-validation-for="Task_Name" class="text-danger"></span>
+
+						</div>
+
+						<div class="d-flex justify-content-between mb-3">
+
+							<a class="customBtn deleteBtn" onclick="DeleteTask('@Model.Task_ID')"><span>Remove task</span></a>
+
+							<a class="customBtn addBtn" onclick="UpdateTask()"><span>Save changes</span></a>
+
+						</div>
+
+					</div>									
+					
+				</form>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+@{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+
+	
+	// Deletes a task using its ID.
+	// @@param {string} id - The ID of the task to be deleted.	
+	function DeleteTask(id) {
+
+		$.ajax({
+			url: "@Url.Action("DeleteTask", "ToDoTask")",
+			type: "DELETE",
+			data: {
+				id: id,
+			},
+			success: function (data) {
+				HideModal();
+				GetTaskList();
+				SuccesToastShow(data);
+			},
+			error: function (xhr) {
+				ErrorToastShow(xhr.responseText);
+			}
+		});
+
+	}
+
+	// Updates an existing task using the data from the edit form.
+	function UpdateTask() {
+
+		var $form = $("#EditTaskForm");
+
+		if ($form.valid()) {
+
+			var formData = {
+				Task_ID: $("#EditTaskForm [name='Task_ID']").val(),
+				Task_Name: $("#EditTaskForm [name='Task_Name']").val(),
+				Task_Date: $("#EditTaskForm [name='Task_Date']").val(),
+			};
+
+			$.ajax({
+				url: "@Url.Action("UpdateTask", "ToDoTask")",
+				type: "PUT",
+				data: {
+					toDoTask: formData,
+				},
+				success: function (data) {
+					HideModal();
+					GetTaskList();
+					SuccesToastShow(data);
+				},
+				error: function (xhr) {
+					ErrorToastShow(xhr.responseText);
+				}
+			});
+		}
+
+	}
+
+</script>
